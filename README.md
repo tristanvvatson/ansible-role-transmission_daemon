@@ -60,7 +60,7 @@ Available variables are listed below, along with default values:
     td_rpc_port: 9091
     td_rpc_url: '/transmission/'
     td_rpc_username:
-    td_rpc_whitelist: '127.0.0.1'
+    td_rpc_whitelist: [ '127.0.0.1' ]
     td_rpc_whitelist_enabled: True
     td_scrape_paused_torrents_enabled: True
     td_script_torrent_done_enabled: False
