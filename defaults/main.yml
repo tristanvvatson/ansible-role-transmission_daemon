@@ -22,7 +22,7 @@ td_incomplete_dir: '/var/lib/transmission/Downloads'
 td_incomplete_dir_enabled: False
 td_lpd_enabled: False
 td_message_level: 1
-td_peer_congestion_algorithm: '' 
+td_peer_congestion_algorithm: ''
 td_peer_id_ttl_hours: 6
 td_peer_limit_global: 200
 td_peer_limit_per_torrent: 50
