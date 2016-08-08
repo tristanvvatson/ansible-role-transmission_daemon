@@ -1,0 +1,5 @@
+---
+- name: restart transmission-daemon
+  tags: transmission-daemon
+  service: name=transmission-daemon
+           state=restarted
