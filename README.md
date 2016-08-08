@@ -19,8 +19,8 @@ Available variables are listed below, along with default values:
     td_alt_speed_time_enabled: False
     td_alt_speed_time_end: 1020
     td_alt_speed_up: 50
-    td_bind_address_ipv4: 0.0.0.0
-    td_bind_address_ipv6: ::
+    td_bind_address_ipv4: '0.0.0.0'
+    td_bind_address_ipv6: '::'
     td_blocklist_enabled: False
     td_blocklist_url: 'http://www.example.com/blocklist'
     td_cache_size_mb: 4
@@ -35,7 +35,7 @@ Available variables are listed below, along with default values:
     td_incomplete_dir_enabled: False
     td_lpd_enabled: False
     td_message_level: 1
-    td_peer_congestion_algorithm:
+    td_peer_congestion_algorithm: ''
     td_peer_id_ttl_hours: 6
     td_peer_limit_global: 200
     td_peer_limit_per_torrent: 50
