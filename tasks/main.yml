@@ -17,6 +17,7 @@
                 owner=transmission
                 group=transmission
                 mode=0600
+      notify: Reload transmission-daemon
     - name: Enable and start transmission-daemon
       service: name=transmission-daemon
                enabled=yes

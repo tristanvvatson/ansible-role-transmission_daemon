@@ -1,5 +1,5 @@
 ---
-- name: restart transmission-daemon
+- name: Reload transmission-daemon
   tags: transmission-daemon
   service: name=transmission-daemon
-           state=restarted
+           state=reloaded

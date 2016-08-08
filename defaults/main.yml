@@ -47,7 +47,7 @@ td_rpc_password: '{81c0bf5837de960f693ce3df337bc5f30dce6ebezuTWtlG8'
 td_rpc_port: 9091
 td_rpc_url: '/transmission/'
 td_rpc_username: 
-td_rpc_whitelist: '127.0.0.1'
+td_rpc_whitelist: [ '127.0.0.1' ]
 td_rpc_whitelist_enabled: True
 td_scrape_paused_torrents_enabled: True
 td_script_torrent_done_enabled: False

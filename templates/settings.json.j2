@@ -47,7 +47,7 @@
     "rpc-port": {{ td_rpc_port if td_rpc_port is defined else '9091' }},
     "rpc-url": "{{ td_rpc_url if td_rpc_url is defined else '/transmission/' }}",
     "rpc-username": "{{ td_rpc_username if td_rpc_username is defined else '' }}",
-    "rpc-whitelist": "{{ td_rpc_whitelist if td_rpc_whitelist is defined else '127.0.0.1' }}",
+    "rpc-whitelist": "{{ td_rpc_whitelist|join(',') if td_rpc_whitelist is defined else '127.0.0.1' }}",
     "rpc-whitelist-enabled": {{ td_rpc_whitelist_enabled|lower if td_rpc_whitelist_enabled is defined else 'true' }},
     "scrape-paused-torrents-enabled": {{ td_scrape_paused_torrents_enabled|lower if td_scrape_paused_torrents_enabled is defined else 'true' }},
     "script-torrent-done-enabled": {{ td_script_torrent_done_enabled|lower if td_script_torrent_done_enabled is defined else 'false' }},

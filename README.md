@@ -88,11 +88,10 @@ By default, the transmission rpc password is 'transmission'
     - hosts: servers
       roles:
         - role: linuxhq.transmission-daemon
-          td_download_dir: '/home/transmission/complete'
-          td_incomplete_dir: '/home/transmission/incomplete'
-          td_incomplete_dir_enabled: True
-          td_rpc_whitelist_enabled: False
-          td_umask: '0'
+          td_dht_enabled: False
+          td_pex_enabled: False
+          td_rpc_whitelist: [ '127.0.0.1', '192.168.0.*' ]
+          td_umask: 0
 
 ## License
 
