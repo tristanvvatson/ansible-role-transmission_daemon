@@ -88,6 +88,8 @@ By default, the transmission rpc password is 'transmission'
     - hosts: servers
       roles:
         - role: linuxhq.transmission-daemon
+          td_blocklist_enabled: True
+          td_blocklist_url: 'http://john.bitsurge.net/public/biglist.p2p.gz'
           td_dht_enabled: False
           td_pex_enabled: False
           td_rpc_whitelist: [ '127.0.0.1', '192.168.0.*' ]
