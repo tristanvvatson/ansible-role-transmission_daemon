@@ -92,6 +92,8 @@ By default, the transmission rpc password is 'transmission'
           td_blocklist_url: 'http://john.bitsurge.net/public/biglist.p2p.gz'
           td_dht_enabled: False
           td_pex_enabled: False
+          td_ratio_limit: 1
+          td_ratio_limit_enabled: True
           td_rpc_whitelist: [ '127.0.0.1', '192.168.0.*' ]
           td_umask: 0
 
