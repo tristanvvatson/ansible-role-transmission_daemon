@@ -11,6 +11,15 @@
     - transmission-daemon
 
 - block:
+    - name: Ensure config directory exists
+      file: path={{ item }}
+            owner=transmission
+            group=transmission
+            mode=0755
+            state=directory
+      with_items:
+        - /var/lib/transmission/.config
+        - /var/lib/transmission/.config/transmission-daemon
     - name: Configure settings.json
       template: src=settings.json.j2
                 dest=/var/lib/transmission/.config/transmission-daemon/settings.json
