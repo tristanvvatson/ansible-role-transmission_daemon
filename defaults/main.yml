@@ -63,3 +63,4 @@ td_trash_original_torrent_files: False
 td_umask: 18
 td_upload_slots_per_torrent: 14
 td_utp_enabled: True
+...

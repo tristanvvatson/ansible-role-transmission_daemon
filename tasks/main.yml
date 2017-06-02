@@ -1,35 +1,42 @@
 ---
-- name: Install transmission-daemon package
+- name: Ensure that the transmission-daemon package is installed
   tags: transmission-daemon
-  yum: name={{ item }}
-       enablerepo=epel
-       state=present
-       update_cache=yes
+  yum:
+    enablerepo: epel
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
   register: transmission_daemon_yum
   with_items:
     - libnatpmp
     - transmission-daemon
 
 - block:
-    - name: Ensure config directory exists
-      file: path={{ item }}
-            owner=transmission
-            group=transmission
-            mode=0755
-            state=directory
+    - name: Ensure that the transmission configuration directory exists
+      file:
+        path: "{{ item }}"
+        owner: transmission
+        group: transmission
+        mode: 0755
+        state: directory
       with_items:
         - /var/lib/transmission/.config
         - /var/lib/transmission/.config/transmission-daemon
-    - name: Configure settings.json
-      template: src=settings.json.j2
-                dest=/var/lib/transmission/.config/transmission-daemon/settings.json
-                owner=transmission
-                group=transmission
-                mode=0600
-      notify: Reload transmission-daemon
+
+    - name: Applying transmission-daemon configuration
+      template:
+        src: settings.json.j2
+        dest: /var/lib/transmission/.config/transmission-daemon/settings.json
+        owner: transmission
+        group: transmission
+        mode: 0600
+      notify: reload transmission-daemon
+
     - name: Enable and start transmission-daemon
-      service: name=transmission-daemon
-               enabled=yes
-               state=started
+      service:
+        enabled: yes
+        name: transmission-daemon
+        state: started
   tags: transmission-daemon
   when: transmission_daemon_yum|success
+...

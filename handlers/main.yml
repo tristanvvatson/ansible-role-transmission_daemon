@@ -1,5 +1,7 @@
 ---
-- name: Reload transmission-daemon
+- name: reload transmission-daemon
   tags: transmission-daemon
-  service: name=transmission-daemon
-           state=reloaded
+  service:
+    name: transmission-daemon
+    state: reloaded
+...
