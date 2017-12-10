@@ -1,6 +1,7 @@
 ---
 - name: reload transmission-daemon
   tags: transmission-daemon
+  become: true
   service:
     name: transmission-daemon
     state: reloaded

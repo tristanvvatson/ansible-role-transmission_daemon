@@ -99,7 +99,7 @@ By default, the transmission rpc password is 'transmission'
 
 ## License
 
-BSD
+GPLv3
 
 ## Author Information
 

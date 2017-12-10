@@ -1,11 +1,11 @@
 ---
 - name: Ensure that the transmission-daemon package is installed
   tags: transmission-daemon
+  become: true
   yum:
     enablerepo: epel
     name: "{{ item }}"
     state: present
-    update_cache: yes
   register: transmission_daemon_yum
   with_items:
     - libnatpmp
@@ -38,5 +38,6 @@
         name: transmission-daemon
         state: started
   tags: transmission-daemon
+  become: true
   when: transmission_daemon_yum|success
 ...
