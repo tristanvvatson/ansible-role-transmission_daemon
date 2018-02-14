@@ -12,7 +12,7 @@
     - transmission-daemon
 
 - block:
-    - name: Ensure that the transmission configuration directory exists
+    - name: Ensure that the transmission configuration and download directories exists
       file:
         path: "{{ item }}"
         owner: transmission
@@ -22,6 +22,8 @@
       with_items:
         - /var/lib/transmission/.config
         - /var/lib/transmission/.config/transmission-daemon
+        - "{{ td_download_dir }}"
+        - "{{ td_incomplete_dir }}"
 
     - name: Applying transmission-daemon configuration
       template:
