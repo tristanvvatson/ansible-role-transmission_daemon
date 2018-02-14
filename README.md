@@ -56,6 +56,8 @@ Available variables are listed below, along with default values:
     td_rpc_authentication_required: false
     td_rpc_bind_address: '0.0.0.0'
     td_rpc_enabled: true
+    td_rpc_host_whitelist: []
+    td_rpc_host_whitelist_enabled: true
     td_rpc_password: '{81c0bf5837de960f693ce3df337bc5f30dce6ebezuTWtlG8'
     td_rpc_port: 9091
     td_rpc_url: '/transmission/'
