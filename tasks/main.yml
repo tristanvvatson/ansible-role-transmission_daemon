@@ -14,16 +14,17 @@
 - block:
     - name: Ensure that the transmission configuration and download directories exists
       file:
-        path: "{{ item }}"
-        owner: transmission
-        group: transmission
+        path: "{{ item.path }}"
+        owner: "{{ item.owner }}"
+        group: "{{ item.group }}"
         mode: 0755
         state: directory
       with_items:
-        - /var/lib/transmission/.config
-        - /var/lib/transmission/.config/transmission-daemon
-        - "{{ td_download_dir }}"
-        - "{{ td_incomplete_dir }}"
+        - { path: "{{ td_download_dir }}", owner: transmission, group: transmission }
+        - { path: "{{ td_incomplete_dir }}", owner: transmission, group: transmission }
+        - { path: /etc/systemd/system/transmission-daemon.service.d, owner: root, group: root }
+        - { path: /var/lib/transmission/.config, owner: transmission, group: transmission }
+        - { path: /var/lib/transmission/.config/transmission-daemon, owner: transmission, group: transmission }
 
     - name: Applying transmission-daemon configuration
       template:
@@ -39,6 +40,7 @@
         enabled: yes
         name: transmission-daemon
         state: started
+      when: td_service_enabled|bool
   tags: transmission-daemon
   become: true
   when: transmission_daemon_yum|success

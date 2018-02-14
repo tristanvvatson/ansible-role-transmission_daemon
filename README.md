@@ -69,6 +69,7 @@ Available variables are listed below, along with default values:
     td_script_torrent_done_filename:
     td_seed_queue_enabled: false
     td_seed_queue_size: 10
+    td_service_enabled: true
     td_speed_limit_down: 100
     td_speed_limit_down_enabled: false
     td_speed_limit_up: 100
