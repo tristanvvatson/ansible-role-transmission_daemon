@@ -44,7 +44,7 @@
     "rpc-bind-address": "{{ td_rpc_bind_address }}",
     "rpc-enabled": {{ 'false' if td_rpc_enabled is defined and not td_rpc_enabled else 'true' }},
     "rpc-host-whitelist": "{{ td_rpc_host_whitelist|join(',') }}",
-    "rpc-host-whitelist-enabled": "{{ 'true' if td_rpc_host_whitelist_enabled is defined and td_rpc_host_whitelist_enabled else 'false' }},
+    "rpc-host-whitelist-enabled": {{ 'true' if td_rpc_host_whitelist_enabled is defined and td_rpc_host_whitelist_enabled else 'false' }},
     "rpc-password": "{{ td_rpc_password }}",
     "rpc-port": {{ td_rpc_port }},
     "rpc-url": "{{ td_rpc_url }}",
