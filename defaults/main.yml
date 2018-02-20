@@ -28,7 +28,7 @@ td_peer_limit_global: 200
 td_peer_limit_per_torrent: 50
 td_peer_port: 51413
 td_peer_port_random_high: 65535
-td_port_random_low: 49152
+td_peer_port_random_low: 1024
 td_peer_port_random_on_start: false
 td_peer_socket_tos: 'default'
 td_pex_enabled: true
