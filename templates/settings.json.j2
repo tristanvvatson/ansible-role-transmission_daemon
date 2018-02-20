@@ -28,7 +28,7 @@
     "peer-limit-per-torrent": {{ td_peer_limit_per_torrent }},
     "peer-port": {{ td_peer_port }},
     "peer-port-random-high": {{ td_peer_port_random_high }},
-    "peer-port-random-low": {{ td_port_random_low }},
+    "peer-port-random-low": {{ td_peer_port_random_low }},
     "peer-port-random-on-start": {{ 'true' if td_peer_port_random_on_start is defined and td_peer_port_random_on_start else 'false' }},
     "peer-socket-tos": "{{ td_peer_socket_tos }}",
     "pex-enabled": {{ 'false' if td_pex_enabled is defined and not td_pex_enabled else 'true' }},
