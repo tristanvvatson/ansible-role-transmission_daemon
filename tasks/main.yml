@@ -11,36 +11,67 @@
     - libnatpmp
     - transmission-daemon
 
-- block:
-    - name: Ensure that the transmission configuration and download directories exists
-      file:
-        path: "{{ item }}"
-        owner: transmission
-        group: transmission
-        mode: 0755
-        state: directory
-      with_items:
-        - "{{ td_download_dir }}"
-        - "{{ td_incomplete_dir }}"
-        - /var/lib/transmission/.config
-        - /var/lib/transmission/.config/transmission-daemon
-
-    - name: Applying transmission-daemon configuration
-      template:
-        src: settings.json.j2
-        dest: /var/lib/transmission/.config/transmission-daemon/settings.json
-        owner: transmission
-        group: transmission
-        mode: 0600
-      notify: reload transmission-daemon
-
-    - name: Enable and start transmission-daemon
-      service:
-        enabled: yes
-        name: transmission-daemon
-        state: started
-      when: td_service_enabled|bool
+- name: Ensure that the transmission-daemon configuration directories exists
   tags: transmission-daemon
   become: true
-  when: transmission_daemon_yum|success
+  file:
+    path: "{{ item }}"
+    owner: transmission
+    group: transmission
+    mode: 0755
+    state: directory
+  register: transmission_daemon_file
+  with_items:
+    - "{{ td_download_dir }}"
+    - "{{ td_incomplete_dir }}"
+    - /var/lib/transmission/.config
+    - /var/lib/transmission/.config/transmission-daemon
+  when:
+    - transmission_daemon_yum|success
+
+- name: Attempting to overlay transmission-daemon configuration
+  tags: transmission-daemon
+  become: true
+  template:
+    src: settings.json.j2
+    dest: /var/lib/transmission/.config/transmission-daemon/settings.json
+    owner: transmission
+    group: transmission
+    mode: 0600
+  notify: reload transmission-daemon
+  register: transmission_daemon_template
+  when:
+    - transmission_daemon_file|success
+    - transmission_daemon_yum|success
+
+- name: Ensure that transmission-daemon is started and enabled on boot
+  tags: transmission-daemon
+  become: true
+  service:
+    enabled: yes
+    name: transmission-daemon
+    state: started
+  register: transmission_daemon_service
+  when:
+    - transmission_daemon_file|success
+    - transmission_daemon_template|success
+    - transmission_daemon_yum|success
+    - td_service_enabled|bool
+
+- name: Attempting to apply blocklist update cronjob (if applicable)
+  tags: transmission-daemon
+  become: true
+  cron:
+    cron_file: transmission-daemon
+    job: "/usr/bin/transmission-remote {{ td_rpc_bind_address }}:{{ td_rpc_port }} --blocklist-update >/dev/null"
+    name: Automatically update transmission-daemon blocklist
+    special_time: weekly
+    state: present
+    user: transmission
+  when:
+    - td_blocklist_enabled|bool
+    - td_blocklist_url is defined
+    - td_rpc_bind_address is defined
+    - td_rpc_port is defined
+    - transmission_daemon_service|success
 ...
