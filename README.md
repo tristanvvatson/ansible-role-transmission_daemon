@@ -91,14 +91,25 @@ By default, the transmission rpc password is 'transmission'
     - hosts: servers
       roles:
         - role: linuxhq.transmission-daemon
+          td_bind_address_ipv4: "{{ ansible_tun0.ipv4.address if ansible_tun0 is defined else ansible_default_ipv4.address }}"
+          td_bind_address_ipv6: "fe80::"
           td_blocklist_enabled: true
           td_blocklist_url: 'http://john.bitsurge.net/public/biglist.p2p.gz'
           td_dht_enabled: false
+          td_download_dir: /transmission/default
+          td_incomplete_dir: /transmission/default
+          td_peer_port: "{{ td_peer_port_random_high|random(start=td_peer_port_random_low) }}"
+          td_peer_port_random_on_start: true
           td_pex_enabled: false
-          td_ratio_limit: 1
+          td_ratio_limit: 2
           td_ratio_limit_enabled: true
-          td_rpc_whitelist: [ '127.0.0.1', '192.168.0.*' ]
-          td_umask: 0
+          td_rpc_bind_address: "{{ ansible_default_ipv4.address }}"
+          td_speed_limit_down: 8000
+          td_speed_limit_down_enabled: true
+          td_rpc_whitelist:
+            - 127.0.0.1
+            - 192.168.0.*
+          td_umask: 2
 
 ## License
 
