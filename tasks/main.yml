@@ -11,6 +11,17 @@
     - libnatpmp
     - transmission-daemon
 
+- name: Attempting to append transmission user to groups, if applicable
+  tags: transmission-daemon
+  become: true
+  user:
+    append: yes
+    groups: "{{ td_groups }}"
+    name: transmission
+  when:
+    - td_groups|length > 0
+    - transmission_daemon_yum is success
+
 - name: Ensure that the transmission-daemon configuration directories exists
   tags: transmission-daemon
   become: true
@@ -26,8 +37,7 @@
     - "{{ td_incomplete_dir }}"
     - /var/lib/transmission/.config
     - /var/lib/transmission/.config/transmission-daemon
-  when:
-    - transmission_daemon_yum|success
+  when: transmission_daemon_yum is success
 
 - name: Attempting to overlay transmission-daemon configuration
   tags: transmission-daemon
@@ -41,8 +51,8 @@
   notify: reload transmission-daemon
   register: transmission_daemon_template
   when:
-    - transmission_daemon_file|success
-    - transmission_daemon_yum|success
+    - transmission_daemon_file is success
+    - transmission_daemon_yum is success
 
 - name: Ensure that transmission-daemon is started and enabled on boot
   tags: transmission-daemon
@@ -53,9 +63,9 @@
     state: started
   register: transmission_daemon_service
   when:
-    - transmission_daemon_file|success
-    - transmission_daemon_template|success
-    - transmission_daemon_yum|success
+    - transmission_daemon_file is success
+    - transmission_daemon_template is success
+    - transmission_daemon_yum is success
     - td_service_enabled|bool
 
 - name: Attempting to apply blocklist update cronjob (if applicable)
@@ -73,5 +83,5 @@
     - td_blocklist_url is defined
     - td_rpc_bind_address is defined
     - td_rpc_port is defined
-    - transmission_daemon_service|success
+    - transmission_daemon_serviceis success
 ...

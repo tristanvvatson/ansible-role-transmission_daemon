@@ -29,6 +29,7 @@ Available variables are listed below, along with default values:
     td_download_queue_enabled: true
     td_download_queue_size: 5
     td_encryption: 1
+    td_groups: []
     td_idle_seeding_limit: 30
     td_idle_seeding_limit_enabled: false
     td_incomplete_dir: '/var/lib/transmission/Downloads'
@@ -97,6 +98,9 @@ By default, the transmission rpc password is 'transmission'
           td_blocklist_url: 'http://john.bitsurge.net/public/biglist.p2p.gz'
           td_dht_enabled: false
           td_download_dir: /transmission/default
+          td_groups:
+            - couchpotato
+            - medusa
           td_incomplete_dir: /transmission/default
           td_peer_port: "{{ td_peer_port_random_high|random(start=td_peer_port_random_low) }}"
           td_peer_port_random_on_start: true
@@ -113,8 +117,17 @@ By default, the transmission rpc password is 'transmission'
 
 ## License
 
-GPLv3
+Copyright (C) 2018 Taylor Kimball <tkimball@linuxhq.org>
 
-## Author Information
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-This role was created by [Taylor Kimball](http://www.linuxhq.org).
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
