@@ -19,5 +19,6 @@
     - import_tasks: td_configuration.yml
     - import_tasks: td_service.yml
     - import_tasks: td_blocklist.yml
+    - import_tasks: td_torrents.yml
   when: transmission_daemon_yum is success
 ...

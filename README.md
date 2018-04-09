@@ -76,6 +76,7 @@ Available variables are listed below, along with default values:
     td_speed_limit_up: 100
     td_speed_limit_up_enabled: false
     td_start_added_torrents: true
+    td_torrents: []
     td_trash_original_torrent_files: false
     td_umask: 18
     td_upload_slots_per_torrent: 14
@@ -113,6 +114,13 @@ By default, the transmission rpc password is 'transmission'
           td_rpc_whitelist:
             - 127.0.0.1
             - 192.168.0.*
+          td_torrents:
+            - http://centos.mirror.lstn.net/7/isos/x86_64/CentOS-7-x86_64-DVD-1708.torrent
+            - http://centos.mirror.lstn.net/7/isos/x86_64/CentOS-7-x86_64-Everything-1708.torrent
+            - http://centos.mirror.lstn.net/7/isos/x86_64/CentOS-7-x86_64-LiveGNOME-1708.torrent
+            - http://centos.mirror.lstn.net/7/isos/x86_64/CentOS-7-x86_64-LiveKDE-1708.torrent
+            - http://centos.mirror.lstn.net/7/isos/x86_64/CentOS-7-x86_64-Minimal-1708.torrent
+            - http://centos.mirror.lstn.net/7/isos/x86_64/CentOS-7-x86_64-NetInstall-1708.torrent
           td_umask: 2
 
 ## License
