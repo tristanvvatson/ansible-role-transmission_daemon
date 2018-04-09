@@ -1,0 +1,8 @@
+---
+- name: Attempting to append transmission user to groups, if applicable
+  user:
+    append: yes
+    groups: "{{ td_groups }}"
+    name: transmission
+  when: td_groups|length > 0
+...

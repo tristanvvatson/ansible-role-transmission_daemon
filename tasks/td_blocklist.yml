@@ -1,0 +1,14 @@
+---
+- name: Attempting to apply blocklist update cronjob, if applicable
+  cron:
+    cron_file: transmission-daemon
+    job: "/usr/bin/transmission-remote {{ td_rpc_bind_address }}:{{ td_rpc_port }} --blocklist-update >/dev/null"
+    name: Automatically update transmission-daemon blocklist
+    special_time: weekly
+    state: present
+    user: transmission
+  when:
+    - td_blocklist_enabled|bool
+    - td_blocklist_url is defined
+    - transmission_daemon_service is success
+...
