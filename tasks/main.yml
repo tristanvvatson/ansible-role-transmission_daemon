@@ -83,5 +83,5 @@
     - td_blocklist_url is defined
     - td_rpc_bind_address is defined
     - td_rpc_port is defined
-    - transmission_daemon_serviceis success
+    - transmission_daemon_service is success
 ...
