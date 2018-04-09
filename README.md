@@ -6,7 +6,9 @@ RHEL/CentOS - A fast, easy, and free bittorrent client
 
 ## Requirements
 
-None
+This role requires that you have the EPEL repository installed.
+
+ * https://galaxy.ansible.com/linuxhq/epel/
 
 ## Role Variables
 
@@ -86,7 +88,7 @@ By default, the transmission rpc password is 'transmission'
 
 ## Dependencies
 
- * https://galaxy.ansible.com/linuxhq/epel/
+None
 
 ## Example Playbook
 

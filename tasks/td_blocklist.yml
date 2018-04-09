@@ -1,4 +1,13 @@
 ---
+- name: Attempting to manually update blocklist, if applicable
+  become: false
+  command: |
+    /usr/bin/transmission-remote {{ td_rpc_bind_address }}:{{ td_rpc_port }} --blocklist-update
+  when:
+    - td_blocklist_enabled|bool
+    - td_blocklist_url is defined
+    - transmission_daemon_service is success
+
 - name: Attempting to apply blocklist update cronjob, if applicable
   cron:
     cron_file: transmission-daemon
