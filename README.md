@@ -1,6 +1,8 @@
 # ansible-role-transmission-daemon
 
 [![Build Status](https://travis-ci.org/linuxhq/ansible-role-transmission-daemon.svg?branch=master)](https://travis-ci.org/linuxhq/ansible-role-transmission-daemon)
+[![Ansible Galaxy](https://img.shields.io/badge/ansible--galaxy-transmission--daemon-blue.svg?style=flat-square)](https://galaxy.ansible.com/linuxhq/transmission-daemon)
+[![License](https://img.shields.io/badge/license-GPLv3-brightgreen.svg?style=flat-square)](COPYING)
 
 Linux - A fast, easy, and free bittorrent client 
 
