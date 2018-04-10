@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/linuxhq/ansible-role-transmission-daemon.svg?branch=master)](https://travis-ci.org/linuxhq/ansible-role-transmission-daemon)
 
-RHEL/CentOS - A fast, easy, and free bittorrent client 
+Linux - A fast, easy, and free bittorrent client 
 
 ## Requirements
 

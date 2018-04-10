@@ -5,7 +5,7 @@
     split: ':'
   when: td_groups|length > 0
 
-- name: Attempting to append transmission user to groups, if applicable
+- name: Attempting to append {{ td_owner }} user to groups, if applicable
   user:
     append: yes
     groups: "{{ item }}"
