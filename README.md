@@ -6,7 +6,7 @@ RHEL/CentOS - A fast, easy, and free bittorrent client
 
 ## Requirements
 
-This role requires that you have the EPEL repository installed.
+This role requires that you have the epel repository installed, if RedHat.
 
  * https://galaxy.ansible.com/linuxhq/epel/
 
