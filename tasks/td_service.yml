@@ -1,12 +1,11 @@
 ---
 - name: Ensure that transmission-daemon is started and enabled on boot
   service:
-    enabled: yes
+    enabled: "{{ td_service_enabled|bool }}"
     name: transmission-daemon
     state: started
   register: transmission_daemon_service
   when:
     - transmission_daemon_file is success
     - transmission_daemon_template is success
-    - td_service_enabled|bool
 ...

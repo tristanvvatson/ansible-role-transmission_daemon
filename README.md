@@ -112,6 +112,7 @@ None
           td_ratio_limit_enabled: true
           td_rpc_authentication_required: false
           td_rpc_bind_address: "{{ ansible_default_ipv4.address }}"
+          td_service_enabled: false
           td_speed_limit_down: 8000
           td_speed_limit_down_enabled: true
           td_rpc_whitelist:

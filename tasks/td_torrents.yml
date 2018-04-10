@@ -5,9 +5,7 @@
     prefix: 'transmission-daemon.'
     state: directory
   register: transmission_daemon_tempfile
-  when:
-    - td_service_enabled|bool
-    - td_torrents|length > 0
+  when: td_torrents|length > 0
 
 - name: Attempting to fetch torrent files, if applicable
   become: false
@@ -17,7 +15,6 @@
   register: transmission_daemon_get_url
   with_items: "{{ td_torrents }}"
   when:
-    - td_service_enabled|bool
     - td_torrents|length > 0
     - transmission_daemon_tempfile is success
 
@@ -28,7 +25,6 @@
   with_items: "{{ transmission_daemon_get_url.results }}"
   when:
     - item.dest is defined
-    - td_service_enabled|bool
     - td_torrents|length > 0
     - transmission_daemon_service is success
 
@@ -37,7 +33,5 @@
   file:
     path: "{{ transmission_daemon_tempfile.path }}"
     state: absent
-  when:
-    - td_service_enabled|bool
-    - transmission_daemon_tempfile is success
+  when: transmission_daemon_tempfile is success
 ...
