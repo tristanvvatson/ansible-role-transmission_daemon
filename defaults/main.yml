@@ -19,7 +19,7 @@ td_encryption: 1
 td_groups: []
 td_idle_seeding_limit: 30
 td_idle_seeding_limit_enabled: false
-td_incomplete_dir: '/var/lib/transmission/Downloads'
+td_incomplete_dir: "{{ td_download_dir }}"
 td_incomplete_dir_enabled: false
 td_lpd_enabled: false
 td_message_level: 1

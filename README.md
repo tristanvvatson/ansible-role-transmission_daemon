@@ -34,7 +34,7 @@ Available variables are listed below, along with default values:
     td_groups: []
     td_idle_seeding_limit: 30
     td_idle_seeding_limit_enabled: false
-    td_incomplete_dir: '/var/lib/transmission/Downloads'
+    td_incomplete_dir: "{{ td_download_dir }}"
     td_incomplete_dir_enabled: false
     td_lpd_enabled: false
     td_message_level: 1
@@ -104,7 +104,6 @@ None
           td_groups:
             - couchpotato
             - medusa
-          td_incomplete_dir: /transmission/default
           td_peer_port: "{{ td_peer_port_random_high|random(start=td_peer_port_random_low) }}"
           td_peer_port_random_on_start: true
           td_pex_enabled: false
