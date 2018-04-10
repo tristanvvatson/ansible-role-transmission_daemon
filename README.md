@@ -106,6 +106,7 @@ None
           td_groups:
             - couchpotato
             - medusa
+          td_incomplete_dir: "{{ td_download_dir }}"
           td_peer_port: "{{ td_peer_port_random_high|random(start=td_peer_port_random_low) }}"
           td_peer_port_random_on_start: true
           td_pex_enabled: false
