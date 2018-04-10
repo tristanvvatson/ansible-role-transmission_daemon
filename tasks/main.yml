@@ -1,17 +1,17 @@
 ---
-- name: Ensure that the transmission-daemon package is installed
+- name: Attempting to import tranmission-daemon installation tasks (Debian)
   tags: transmission-daemon
   become: true
-  yum:
-    enablerepo: epel
-    name: "{{ item }}"
-    state: present
-  register: transmission_daemon_yum
-  with_items:
-    - libnatpmp
-    - transmission-daemon
+  import_tasks: td_os_debian.yml
+  when: ansible_os_family == 'Debian'
 
-- name: Attempting to import transmission-daemon tasks
+- name: Attempting to import tranmission-daemon installation tasks (RedHat)
+  tags: transmission-daemon
+  become: true
+  import_tasks: td_os_redhat.yml
+  when: ansible_os_family == 'RedHat'
+
+- name: Attempting to import transmission-daemon configuration tasks
   tags: transmission-daemon
   become: true
   block:

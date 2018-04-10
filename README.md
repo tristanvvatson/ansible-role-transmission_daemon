@@ -56,7 +56,7 @@ Available variables are listed below, along with default values:
     td_ratio_limit: 2
     td_ratio_limit_enabled: false
     td_rename_partial_files: true
-    td_rpc_authentication_required: false
+    td_rpc_authentication_required: true
     td_rpc_bind_address: '0.0.0.0'
     td_rpc_enabled: true
     td_rpc_host_whitelist: []
@@ -64,7 +64,7 @@ Available variables are listed below, along with default values:
     td_rpc_password: '{81c0bf5837de960f693ce3df337bc5f30dce6ebezuTWtlG8'
     td_rpc_port: 9091
     td_rpc_url: '/transmission/'
-    td_rpc_username: ''
+    td_rpc_username: transmission
     td_rpc_whitelist: [ '127.0.0.1' ]
     td_rpc_whitelist_enabled: true
     td_scrape_paused_torrents_enabled: true
@@ -110,6 +110,7 @@ None
           td_pex_enabled: false
           td_ratio_limit: 2
           td_ratio_limit_enabled: true
+          td_rpc_authentication_required: false
           td_rpc_bind_address: "{{ ansible_default_ipv4.address }}"
           td_speed_limit_down: 8000
           td_speed_limit_down_enabled: true

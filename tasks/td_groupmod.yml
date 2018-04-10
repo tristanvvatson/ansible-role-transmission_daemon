@@ -1,8 +1,17 @@
 ---
+- name: Attempting to gather a list of system groups, if applicable
+  getent:
+    database: group
+    split: ':'
+  when: td_groups|length > 0
+
 - name: Attempting to append transmission user to groups, if applicable
   user:
     append: yes
-    groups: "{{ td_groups }}"
-    name: transmission
-  when: td_groups|length > 0
+    groups: "{{ item }}"
+    name: "{{ td_owner }}"
+  with_items: "{{ td_groups }}"
+  when:
+    - item in getent_group
+    - td_groups|length > 0
 ...

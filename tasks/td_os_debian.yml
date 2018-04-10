@@ -1,0 +1,17 @@
+---
+- name: Attempting to set os family specific facts (Debian)
+  become: false
+  set_fact:
+    td_owner: debian-transmission
+    td_group: debian-transmission
+    td_settings: /etc/transmission-daemon/settings.json
+
+- name: Ensure that the transmission-daemon package is installed (Debian)
+  apt:
+    name: "{{ item }}"
+    state: present
+  register: transmission_daemon_yum
+  with_items:
+    - libnatpmp1
+    - transmission-daemon
+...
