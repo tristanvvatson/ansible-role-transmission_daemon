@@ -20,5 +20,5 @@
     - import_tasks: td_service.yml
     - import_tasks: td_blocklist.yml
     - import_tasks: td_torrents.yml
-  when: transmission_daemon_yum is success
+  when: transmission_daemon_package is success
 ...

@@ -10,7 +10,7 @@
   apt:
     name: "{{ item }}"
     state: present
-  register: transmission_daemon_yum
+  register: transmission_daemon_package
   with_items:
     - libnatpmp1
     - transmission-daemon
