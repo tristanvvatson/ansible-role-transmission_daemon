@@ -33,5 +33,7 @@
   file:
     path: "{{ transmission_daemon_tempfile.path }}"
     state: absent
-  when: transmission_daemon_tempfile is success
+  when:
+    - td_torrents|length > 0
+    - transmission_daemon_tempfile is success
 ...
