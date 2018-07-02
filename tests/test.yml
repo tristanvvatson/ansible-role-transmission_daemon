@@ -2,5 +2,5 @@
 - hosts: localhost
   remote_user: root
   roles:
-    - ansible-role-transmission-daemon
+    - ansible-role-transmission_daemon
 ...

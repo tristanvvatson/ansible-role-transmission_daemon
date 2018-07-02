@@ -1,7 +1,7 @@
-# ansible-role-transmission-daemon
+# ansible-role-transmission_daemon
 
-[![Build Status](https://travis-ci.org/linuxhq/ansible-role-transmission-daemon.svg?branch=master)](https://travis-ci.org/linuxhq/ansible-role-transmission-daemon)
-[![Ansible Galaxy](https://img.shields.io/badge/ansible--galaxy-transmission--daemon-blue.svg?style=flat)](https://galaxy.ansible.com/linuxhq/transmission-daemon)
+[![Build Status](https://travis-ci.org/linuxhq/ansible-role-transmission_daemon.svg?branch=master)](https://travis-ci.org/linuxhq/ansible-role-transmission_daemon)
+[![Ansible Galaxy](https://img.shields.io/badge/ansible--galaxy-transmission_daemon-blue.svg?style=flat)](https://galaxy.ansible.com/linuxhq/transmission_daemon)
 [![License](https://img.shields.io/badge/license-GPLv3-brightgreen.svg?style=flat)](COPYING)
 
 Linux - A fast, easy, and free bittorrent client 
@@ -96,7 +96,7 @@ None
 
     - hosts: servers
       roles:
-        - role: linuxhq.transmission-daemon
+        - role: linuxhq.transmission_daemon
           td_bind_address_ipv4: "{{ ansible_tun0.ipv4.address if ansible_tun0 is defined else ansible_default_ipv4.address }}"
           td_bind_address_ipv6: "fe80::"
           td_blocklist_enabled: true

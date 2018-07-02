@@ -1,18 +1,18 @@
 ---
 - name: Attempting to import tranmission-daemon installation tasks (Debian)
-  tags: transmission-daemon
+  tags: transmission_daemon
   become: true
   import_tasks: td_os_debian.yml
   when: ansible_os_family == 'Debian'
 
 - name: Attempting to import tranmission-daemon installation tasks (RedHat)
-  tags: transmission-daemon
+  tags: transmission_daemon
   become: true
   import_tasks: td_os_redhat.yml
   when: ansible_os_family == 'RedHat'
 
 - name: Attempting to import transmission-daemon configuration tasks
-  tags: transmission-daemon
+  tags: transmission_daemon
   become: true
   block:
     - import_tasks: td_groupmod.yml

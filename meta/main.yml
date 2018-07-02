@@ -1,6 +1,7 @@
 ---
 dependencies: []
 galaxy_info:
+  role_name: transmission_daemon
   author: tkimball83
   description: Linux - A fast, easy, and free bittorrent client
   license: GPLv3
