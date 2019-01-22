@@ -1,24 +1,137 @@
 ---
-- name: Attempting to import tranmission-daemon installation tasks (Debian)
-  tags: transmission_daemon
-  become: true
-  import_tasks: td_os_debian.yml
+- name: Attempting to execute Debian related tasks, if applicable
+  tags: transmission
+  block:
+    - name: Attempting to set os family specific facts
+      set_fact:
+        td_owner: debian-transmission
+        td_group: debian-transmission
+        td_settings: /etc/transmission-daemon/settings.json
+    - name: Ensure that the transmission-daemon package is installed
+      become: true
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - libnatpmp1
+        - transmission-daemon
   when: ansible_os_family == 'Debian'
 
-- name: Attempting to import tranmission-daemon installation tasks (RedHat)
-  tags: transmission_daemon
-  become: true
-  import_tasks: td_os_redhat.yml
+- name: Attempting to execute RedHat related tasks, if applicable
+  tags: transmission
+  block:
+    - name: Attempting to set os family specific facts
+      set_fact:
+        td_owner: transmission
+        td_group: transmission
+        td_settings: /var/lib/transmission/.config/transmission-daemon/settings.json
+    - name: Ensure that the transmission-daemon package is installed
+      become: true
+      yum:
+        enablerepo: epel
+        name: "{{ item }}"
+        state: present
+      loop:
+        - libnatpmp
+        - transmission-daemon
   when: ansible_os_family == 'RedHat'
 
-- name: Attempting to import transmission-daemon configuration tasks
-  tags: transmission_daemon
-  become: true
+- name: Attempting to append {{ td_owner }} user to groups, if applicable
+  tags: transmission
   block:
-    - import_tasks: td_groupmod.yml
-    - import_tasks: td_configuration.yml
-    - import_tasks: td_service.yml
-    - import_tasks: td_blocklist.yml
-    - import_tasks: td_torrents.yml
-  when: transmission_daemon_package is success
+    - name: Attempting to gather a list of system groups
+      getent:
+        database: group
+        split: ':'
+    - name: Attempting to append {{ td_owner }} user to groups
+      become: true
+      user:
+        append: yes
+        groups: "{{ item }}"
+        name: "{{ td_owner }}"
+      loop: "{{ td_groups }}"
+      when: item in getent_group
+  when: td_groups|length > 0
+
+- name: Ensure that the transmission-daemon configuration directories exists
+  tags: transmission
+  become: true
+  file:
+    path: "{{ item }}"
+    owner: "{{ td_owner }}"
+    group: "{{ td_group }}"
+    mode: 0755
+    state: directory
+  loop:
+    - "{{ td_download_dir }}"
+    - "{{ td_incomplete_dir }}"
+    - "{{ td_settings|dirname }}"
+    - /var/lib/transmission/.config
+    - /var/lib/transmission/.config/transmission-daemon
+
+- name: Attempting to overlay transmission-daemon configuration
+  tags: transmission
+  become: true
+  template:
+    src: settings.json.j2
+    dest: "{{ td_settings }}"
+    owner: "{{ td_owner }}"
+    group: "{{ td_group }}"
+    mode: 0600
+  notify: reload transmission-daemon
+
+- name: Ensure that transmission-daemon is started and enabled on boot
+  tags: transmission
+  become: true
+  service:
+    enabled: "{{ td_service_enabled|bool }}"
+    name: transmission-daemon
+    state: started
+
+- name: Attempting to execute blocklist related tasks, if applicable
+  tags: transmission
+  block:
+    - name: Attempting to manually update blocklist
+      command: |
+        /usr/bin/transmission-remote {{ td_rpc_bind_address }}:{{ td_rpc_port }} --blocklist-update
+    - name: Attempting to apply blocklist update cronjob
+      become: true
+      cron:
+        cron_file: transmission-daemon
+        job: "/usr/bin/transmission-remote {{ td_rpc_bind_address }}:{{ td_rpc_port }} --blocklist-update >/dev/null"
+        name: Automatically update transmission-daemon blocklist
+        special_time: weekly
+        state: present
+        user: transmission
+  when:
+    - td_blocklist_enabled|bool
+    - td_blocklist_url is defined
+
+- name: Attempting to execute torrent related tasks, if applicable
+  tags: transmission
+  block:
+    - name: Attempting to create temporary directory
+      tempfile:
+        prefix: 'transmission-daemon.'
+        state: directory
+      register: transmission_daemon_tempfile
+
+    - name: Attempting to fetch torrent files, if applicable
+      get_url:
+        dest: "{{ transmission_daemon_tempfile.path }}"
+        url: "{{ item }}"
+      register: transmission_get_url
+      loop: "{{ td_torrents }}"
+
+    - name: Attempting to send torrents to transmission-daemon, if applicable
+      command: |
+        /usr/bin/transmission-remote {{ td_rpc_bind_address }}:{{ td_rpc_port }} --add {{ item.dest }}
+      loop: "{{ transmission_get_url.results }}"
+      when: item.dest is defined
+
+    - name: Attempting to purge temporary directory from filesystem
+      file:
+        path: "{{ transmission_daemon_tempfile.path }}"
+        state: absent
+  when: td_torrents|length > 0
 ...
