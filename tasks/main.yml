@@ -115,20 +115,17 @@
         prefix: 'transmission-daemon.'
         state: directory
       register: transmission_daemon_tempfile
-
-    - name: Attempting to fetch torrent files, if applicable
+    - name: Attempting to fetch remote torrent files
       get_url:
         dest: "{{ transmission_daemon_tempfile.path }}"
         url: "{{ item }}"
       register: transmission_get_url
       loop: "{{ td_torrents }}"
-
-    - name: Attempting to send torrents to transmission-daemon, if applicable
+    - name: Attempting to send torrents to transmission-daemon
       command: |
         /usr/bin/transmission-remote {{ td_rpc_bind_address }}:{{ td_rpc_port }} --add {{ item.dest }}
       loop: "{{ transmission_get_url.results }}"
       when: item.dest is defined
-
     - name: Attempting to purge temporary directory from filesystem
       file:
         path: "{{ transmission_daemon_tempfile.path }}"
