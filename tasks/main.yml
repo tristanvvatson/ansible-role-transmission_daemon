@@ -1,17 +1,34 @@
 ---
+
+- name: Ensure group {{ sys_group }} exists
+  group:
+    name: "{{ sys_group }}"
+    state: present
+
+- name: Create user associated to Transmission
+  tags: transmission
+  user:
+    user: "{{ sys_username }}"
+    name: "{{ sys_group }}"
+    group: "{{ sys_group }}"
+    comment: "Transmission user" 
+
 - name: Attempting to execute Debian related tasks, if applicable
   tags: transmission
   block:
+
     - name: Attempting to set os family specific facts
       set_fact:
-        td_owner: debian-transmission
-        td_group: debian-transmission
+        td_owner: "{{ sys_username }}"
+        td_group: "{{ sys_group }}"
         td_settings: /etc/transmission-daemon/settings.json
     - name: Ensure that the transmission-daemon package is installed
       become: true
+      become_method: sudo
       apt:
         name: "{{ item }}"
         state: present
+        update_cache: yes
       loop:
         - libnatpmp1
         - transmission-daemon
@@ -22,11 +39,12 @@
   block:
     - name: Attempting to set os family specific facts
       set_fact:
-        td_owner: transmission
-        td_group: transmission
+        td_owner: "{{ sys_username }}"
+        td_group: "{{ sys_group }}"
         td_settings: /var/lib/transmission/.config/transmission-daemon/settings.json
     - name: Ensure that the transmission-daemon package is installed
       become: true
+      become_method: sudo
       yum:
         enablerepo: epel
         name: "{{ item }}"
@@ -46,9 +64,9 @@
     - name: Attempting to append {{ td_owner }} user to groups
       become: true
       user:
-        append: yes
+        append: true
         groups: "{{ item }}"
-        name: "{{ td_owner }}"
+        name: "{{ sys_username }}"
       loop: "{{ td_groups }}"
       when: item in getent_group
   when: td_groups|length > 0
@@ -58,8 +76,8 @@
   become: true
   file:
     path: "{{ item }}"
-    owner: "{{ td_owner }}"
-    group: "{{ td_group }}"
+    owner: "{{ sys_username }}"
+    group: "{{ sys_group }}"
     mode: 0755
     state: directory
   loop:
@@ -75,8 +93,8 @@
   template:
     src: settings.json.j2
     dest: "{{ td_settings }}"
-    owner: "{{ td_owner }}"
-    group: "{{ td_group }}"
+    owner: "{{ sys_username }}"
+    group: "{{ sys_group }}"
     mode: 0600
   notify: reload transmission-daemon
 
@@ -102,7 +120,7 @@
         name: Automatically update transmission-daemon blocklist
         special_time: weekly
         state: present
-        user: transmission
+        user: "{{ sys_username }}"
   when:
     - td_blocklist_enabled|bool
     - td_blocklist_url is defined

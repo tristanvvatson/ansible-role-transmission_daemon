@@ -1,0 +1,32 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint:
+  name: yamllint
+  enabled: true
+platforms:
+  - name: centos7
+    image: "geerlingguy/docker-centos7-ansible:latest"
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    environment: docker
+    comnmand: "/sbin/init"
+    pre_build_image: true
+  - name: ubuntu1604
+    image: "geerlingguy/docker-ubuntu1804-ansible:latest"
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    privileged: true
+    command: "/lib/systemd/systemd"
+    environment: docker
+    pre_build_image: true
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+verifier:
+  name: testinfra
+  lint:
+    name: flake8
